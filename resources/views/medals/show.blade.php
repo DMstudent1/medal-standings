@@ -16,9 +16,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($names as $name)
+                    @foreach ($medals as $medal)
                         <tr>
-                            <td>{{ $name }}</td>
+                            <td>{{ $medal->countries_id }}</td>
+                            <td>{{ $medal->name }}</td>
                         </tr>
                     @endforeach
                 </tbody>

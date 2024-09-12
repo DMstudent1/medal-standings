@@ -12,18 +12,14 @@ class MedalSeeder extends Seeder
 {
     public function run()
     {
-        $medalTypes = [
-            'Золотая медаль',
-            'Серебряная медаль',
-            'Бронзовая медаль'
-        ];
+        
 
         
         $athletes = Athletes::all();
         $countries = Countries::all();
         $sports = Sport::all();
 
-            
+
         $athleteIds = $athletes->pluck('id')->toArray();
         $countryIds = $countries->pluck('id')->toArray();
         $sportIds = $sports->pluck('id')->toArray();
@@ -31,10 +27,12 @@ class MedalSeeder extends Seeder
         foreach ($athleteIds as $athleteId) {
             Medals::create(
                 [   
-                    'name' => $medalTypes[array_rand($medalTypes)],
                     'country_id' => $countryIds[array_rand($countryIds)],
                     'sport_id' => $sportIds[array_rand($sportIds)],
-                    'athletes_id' => $athleteId
+                    'athletes_id' => $athleteId,
+                    'gold_medal' => rand(1, 10),
+                    'silver_medal' => rand(1, 10),
+                    'bronze_medal' => rand(1, 10),
                 ]
             );
         }

@@ -8,9 +8,7 @@ class MedalsController extends Controller
 {
     public function show() {
         $medals = Medals::all();
-        $names = $medals->pluck('name');
-        
 
-        return view('medals.show', ['names' => $names]);
+        return view('medals.show', ['medals' => $medals]);
     }
 }

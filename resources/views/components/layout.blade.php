@@ -8,8 +8,8 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="#">
+        <nav class="navbar navbar-light bg-light p-2">
+            <a class="navbar-brand" href="/">
             <p>Медали</p>
             </a>
          </nav>
