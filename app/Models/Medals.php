@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 class Medals extends Model
 {
     public function athletes() {
-        return $this->hasOne(Athletes::class);
+        return $this->belongsTo(Athletes::class, 'athletes_id');
     }
-    public function countries() {
-        return $this->hasOne(Countries::class);
+    public function country()
+    {
+        return $this->belongsTo(Countries::class, 'country_id');
     }
     public function sports() {
-        return $this->hasOne(Sport::class);
+        return $this->belongsTo(Sport::class, 'sport_id');
     }
     use HasFactory;
 }
