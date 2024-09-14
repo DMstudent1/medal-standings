@@ -15,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [MedalsController::class, 'show']);
-Route::get('/new-medal', [MedalsController::class, 'show']);
+Route::get('/', [MedalsController::class, 'show'])->name('main');
+Route::post('/', [MedalsController::class, 'newMedal']);

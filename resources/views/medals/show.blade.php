@@ -5,53 +5,56 @@
     <div class="container my-4">
         <div>
             <h1>Добавить новую медаль</h1>
-            <form action="" method="POST">
+            <form  method="POST">
+                @csrf
                 <div class="d-flex flex-column w-25 mb-2">
-                    <label for="">Выберите тип медали</label>
-                    <select class="form-select" name="" id="" required>
-                        <option value="">Золотая медаль</option>
-                        <option value="">Серебряная медаль</option>
-                        <option value="">Бронзовая медаль</option>
+                    <label for="medal-type">Выберите тип медали</label>
+                    <select class="form-select" name="medal-type" id="medal-type">
+                        <option value="gold-medal">Золотая медаль</option>
+                        <option value="silver-medal">Серебряная медаль</option>
+                        <option value="bronze-medal">Бронзовая медаль</option>
                     </select>
                 </div>
                 <div class="d-flex flex-column w-25 mb-2">
                     
-                    <label for="">Выберите Страну</label>
-                    <select class="form-select" name="" id="" required>
+                    <label for="country">Выберите Страну</label>
+                    <select class="form-select" name="country_id" id="country">
                         @foreach ($countries as $country)
-                             <option value="">{{ $country->name }}</option> 
+                             <option value="{{ $country->id }}">{{ $country->name }}</option> 
                         @endforeach
                     </select>
                 </div>
                 <div class="d-flex flex-column w-25 mb-2">
-                    <label for="">Выберите тип спорта</label>
-                    <select class="form-select" name="" id="" required>
+                    <label for="sport_id">Выберите тип спорта</label>
+                    <select class="form-select" name="sport_id" id="sport_id">
                         @foreach ($sports as $sport)
-                             <option value="">{{ $sport->name }}</option> 
+                             <option value="{{ $sport->id }}">{{ $sport->name }}</option> 
                         @endforeach
                     </select>
                 </div>
                 <div class="d-flex flex-column w-25 mb-2">
-                    <label for="">Выберите фамилию спортсмена</label>
-                    <select class="form-select" name="" id="" required>
+                    <label for="sur_name">Выберите фамилию спортсмена</label>
+                    <select class="form-select" name="sur_name" id="sur_name">
                         @foreach ($athletes as $athlete)
-                             <option value="">{{ $athlete->sur_name }}</option> 
+                             <option value="{{ $athlete->sur_name }}">{{ $athlete->sur_name }}</option> 
                         @endforeach
                     </select>
                 </div>
                 <div class="d-flex flex-column w-25 mb-2">
-                    <label for="">Выберите имя спортсмена</label>
-                    <select class="form-select" name="" id="" required>
+                    <label for="name">Выберите имя спортсмена</label>
+                    <select class="form-select" name="name" id="name">
                         @foreach ($athletes as $athlete)
-                             <option value="">{{ $athlete->name }}</option> 
+                             <option value="{{ $athlete->name }}">{{ $athlete->name }}</option> 
                         @endforeach
                     </select>
                 </div>
                 <div class="d-flex flex-column w-25 mb-2">
-                    <label for="">Выберите отчество спортсмена</label>
-                    <select class="form-select" name="" id="">
+                    <label for="patronymic">Выберите отчество спортсмена</label>
+                    <select class="form-select" name="patronymic" id="patronymic">
+                        <option>-</option>
+                       
                         @foreach ($athletes as $athlete)
-                             <option value="">{{ $athlete->patronymic }}</option> 
+                             <option value="{{ $athlete->patronymic }}">{{ $athlete->patronymic }}</option> 
                         @endforeach
                     </select>
                 </div>

@@ -34,4 +34,35 @@ class MedalsController extends Controller
         ]);
         
     }
+
+    public function newMedal(Request $request) {
+        $athlete = new Athletes;
+        $athlete->sur_name = $request->input('sur_name');
+        $athlete->name = $request->input('name');
+        $athlete->patronymic = $request->input('patronymic');
+        $athlete->country_id = $request->input('country_id');
+        $athlete->save();
+
+        $athleteId = $athlete->id;
+
+        $medal = new Medals;
+        if ($request->input('medal-type') == 'gold-medal') {
+            $medal->gold_medal = 1;
+            $medal->silver_medal = 0;
+            $medal->bronze_medal = 0;
+        } else if ($request->input('medal-type') == 'silver-medal') {
+            $medal->gold_medal = 0;
+            $medal->silver_medal = 1;
+            $medal->bronze_medal = 0;
+        } else {
+            $medal->gold_medal = 0;
+            $medal->silver_medal = 0;
+            $medal->bronze_medal = 1;
+        }
+        $medal->country_id = $request->input('country_id');
+        $medal->sport_id = $request->input('sport_id');
+        $medal->athletes_id = $athleteId;
+        $medal->save();
+        return redirect()->route('main');
+    }
 }
