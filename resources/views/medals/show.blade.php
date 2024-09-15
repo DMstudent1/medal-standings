@@ -1,11 +1,11 @@
 <x-layout>
     <x-slot:title>
-       Список медалей
+        Список медалей
     </x-slot>
     <div class="container my-4">
         <div>
             <h1>Добавить новую медаль</h1>
-            <form  method="POST">
+            <form method="POST">
                 @csrf
                 <div class="d-flex flex-column w-25 mb-2">
                     <label for="medal-type">Выберите тип медали</label>
@@ -16,7 +16,6 @@
                     </select>
                 </div>
                 <div class="d-flex flex-column w-25 mb-2">
-                    
                     <label for="country">Выберите Страну</label>
                     <select class="form-select" name="country_id" id="country">
                         @foreach ($countries as $country)
@@ -52,7 +51,6 @@
                     <label for="patronymic">Выберите отчество спортсмена</label>
                     <select class="form-select" name="patronymic" id="patronymic">
                         <option>-</option>
-                       
                         @foreach ($athletes as $athlete)
                              <option value="{{ $athlete->patronymic }}">{{ $athlete->patronymic }}</option> 
                         @endforeach
@@ -63,37 +61,78 @@
         </div>
         <h1 class="mb-2">Список медалей</h1>
 
-
-            <table class='table'>
-                <thead>
+        <table class='table' id="medal-table">
+            <thead>
+                <tr class="text-center">
+                    <th scope='col' data-type='number'>Место</th>
+                    <th scope='col' data-type='string'>Страна</th>
+                    <th scope='col' data-type='number'>Золотые медали</th>
+                    <th scope='col' data-type='number'>Серебряные медали</th>
+                    <th scope='col' data-type='number'>Бронзовые медали</th>
+                    <th scope='col' data-type='number'>Сумма медалей</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php $i = 1; @endphp
+                @foreach ($medals as $medal)
                     <tr class="text-center">
-                        <th scope='col'>Место</th>
-                        <th scope='col'>Страна</th>
-                        <th scope='col'>Золотые медали</th>
-                        <th scope='col'>Серебряные медали</th>
-                        <th scope='col'>Бронзовые медали</th>
-                        <th scope='col'>Сумма медалей</th>
+                        <td>{{ $i++ }}</td>
+                        <td>{{ $medal->country->name }}</td>
+                        <td>{{ $medal->total_gold }}</td>
+                        <td>{{ $medal->total_silver }}</td>
+                        <td>{{ $medal->total_bronze }}</td>
+                        <td>{{ $medal->total_medal }}</td>
                     </tr>
-             
-                </thead>
-                <tbody>
-                    @php $i = 1; @endphp
-                    @foreach ($medals as $medal)
-
-                        <tr class="text-center">
-                            <td>{{ $i++ }}</td> 
-                              
-                            <td>{{ $medal->country->name }}</td>
-                            <td>{{ $medal->total_gold }}</td> 
-                            <td>{{ $medal->total_silver }}</td> 
-                            <td>{{ $medal->total_bronze }}</td> 
-                            <td>{{ $medal->total_medal }}</td> 
-                            
-                              
-                        </tr>
-                    @endforeach
-                    
-                </tbody>
-            </table>
+                @endforeach
+            </tbody>
+        </table>
     </div>
+
+    <script>
+        let table = document.querySelector('#medal-table');
+        let sortDirections = {}; 
+
+        table.onclick = function (e) {
+            if (e.target.tagName !== 'TH') return;
+
+            let th = e.target;
+            let colIndex = th.cellIndex;
+            let type = th.dataset.type;
+
+            if (!sortDirections[colIndex]) {
+                sortDirections[colIndex] = 'desc'; 
+            }
+
+            let currentDirection = sortDirections[colIndex];
+            sortTable(colIndex, type, currentDirection);
+
+            sortDirections[colIndex] = currentDirection === 'asc' ? 'desc' : 'asc';
+        };
+
+        function sortTable(colNum, type, direction) {
+            let tbody = table.querySelector('tbody');
+            let rowsArray = Array.from(tbody.rows);
+
+            let compare;
+            switch (type) {
+                case 'number':
+                    compare = function (rowA, rowB) {
+                        let a = parseFloat(rowA.cells[colNum].innerHTML);
+                        let b = parseFloat(rowB.cells[colNum].innerHTML);
+                        return direction === 'asc' ? a - b : b - a;
+                    };
+                    break;
+                case 'string':
+                    compare = function (rowA, rowB) {
+                        let a = rowA.cells[colNum].innerHTML;
+                        let b = rowB.cells[colNum].innerHTML;
+                        return direction === 'asc' ? a.localeCompare(b) : b.localeCompare(a);
+                    };
+                    break;
+            }
+
+            rowsArray.sort(compare);
+            tbody.append(...rowsArray);
+        }
+    </script>
 </x-layout>
